@@ -43,7 +43,7 @@ Incidently, we use our own "command" notation where functions are prefixed by a 
 
 ```shell
 c0default() {
-  c1scan 'article:*'
+  c1scan 'article:*' # match
 }
 
 if [ $# -gt 0 ]
