@@ -1,6 +1,12 @@
 
 # Redis scan
 
+We now know not to use `redis-cli keys` and especially not on production machines.
+
+We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line returned is the cursor for the next iteration.
+
+Herewith a sample bash script to `SCAN` keys from Redis.
+
 ```shell
 set -u 
 
@@ -30,7 +36,12 @@ c1scan() {
     fi
   done
 }
+```
+where we `tee` the output to a file in order to extract the cursor from it's `head.`
 
+We are using a command notation where functions are prefix by a `c` and the number of arguments they expect.
+
+```shell
 c0default() {
   c1scan 'article:*'
 }
@@ -44,4 +55,6 @@ else
   c0default
 fi
 ```
+
+This enables us to invoke specific functions (with arguments) from the command-line e.g. for debugging purposes.
 
