@@ -64,4 +64,4 @@ match article:*
 scanned article:1940344:hashes
 ```
 
-where the function `c1scan` will be invoked in this case since the "command" given (as the first command-line argument) is "scan," and there is one argument for that viz. `article:*.`
+where the function `c1scan` will be invoked in this case since the "command" given (as the first command-line argument) is "scan," and there is one argument for that viz. `article:*`
