@@ -39,7 +39,7 @@ c1scan() {
 ```
 where we `tee` the output to a file in order to extract the cursor from it's head for the next iteration. When the cursor returned is zero, we `break` from infinite `while` loop.
 
-Incidently, we use a "command" notation where functions are prefix by a `c` and the number of arguments they expect.
+Incidently, we use our own "command" notation where functions are prefixed by a `c` and the number of arguments they expect.
 
 ```shell
 c0default() {
