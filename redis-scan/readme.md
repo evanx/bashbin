@@ -58,3 +58,10 @@ fi
 
 This enables us to invoke specific functions (with arguments) from the command-line e.g. for debugging purposes.
 
+```
+evans@boromir:~/bashbin/redis-scan$ sh scan.sh scan 'article:*' | head -2
+match article:*
+scanned article:1940344:hashes
+```
+
+where `c1scan` will be invoked since the "command" given (as the first argument) is "scan," and there is one argument for that viz. `article:*.`
