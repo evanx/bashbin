@@ -28,6 +28,15 @@ finish() { # EXIT trap to clean up
 }
 
 trap finish EXIT
+
+c0sleepload() # sleep if load is too high
+  while cat /proc/loadavg | grep -qv ^[0-1]
+  do 
+    log 'sleep' 'load:' `cat /proc/loadavg | cut -f1 -d' '`
+    sleep 5 # sleep while load is high
+  done 
+}
+
 ```
 where `>&2` is used to redirect debugging info to stderr. We suppress the debugging of the script via `2>/dev/null`
 
@@ -60,11 +69,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
     then
       break
     fi
-    while cat /proc/loadavg | grep -qv ^[0-1]
-    do 
-      log 'sleep' 'load:' `cat /proc/loadavg | cut -f1 -d' '`
-      sleep 5 # sleep while load is high
-    done 
+    c0sleepload # sleep if load is too high
   done
 }
 ```
