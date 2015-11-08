@@ -58,7 +58,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
   done
 }
 ```
-where we `tee` the output to a file in order to extract the cursor from it's head for the next iteration. When the cursor returned is zero, we `break` from the infinite `while` loop.
+where we `tee` the output to a file in order to extract the cursor from it's head for the next iteration. When the cursor returned is zero, we `break` from the `while` loop.
 
 
 ### Commands 
