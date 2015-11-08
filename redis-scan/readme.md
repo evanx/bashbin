@@ -17,7 +17,7 @@ set -u # unset variable is an error
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
 
->&2 find tmp/scan -mtime +1 -exec rm {} \; # clean up previous 
+>&2 find tmp/scan -mtime +1 -exec rm {} \; # clean up previous older than 1 day
 
 finish() {
   >&2 find tmp/scan/$$ # show the files created for debugging
