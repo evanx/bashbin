@@ -66,7 +66,7 @@ trap finish EXIT
 ```
 where `>&2` is used to redirect debugging info to stderr. (We can hide the debugging info by redirecting `2>/dev/null` when running the script.)
 
-In general it's useful to have a `tmp` directory for each bash script. We use `$$` to create a dedicated `tmp` according to the script's PID.
+In general it's useful to have a `tmp` directory for each bash script. We use `$$` to create a dedicated `tmp` according to its PID.
 
 In addition, we might use "tmp" hashes in Redis to track the execution of the script, in database number (unlucky) 13. As a matter of course, we store the execution duration using `c1tmp_pipe` in `finish()`
 
