@@ -1,5 +1,5 @@
 
-# Redis scan
+# Redis SCAN
 
 So we should not to use `redis-cli keys` - especially not on large Redis instances on production machines. This can block Redis for a number of seconds.
 
