@@ -27,7 +27,7 @@ trap finish EXIT
 
 c1scanned() { # key: process a scanned key
   local key="$1"
-  log "scanned $key" 'load:' `cat /proc/loadavg | cut -f1 -d' '`
+  log "scanned: $key" 'load:' `cat /proc/loadavg | cut -f1 -d' '`
   echo "$key" # for example, just echo to stdout
   sleep .1 # sleep to alleviate the load on Redis and the server
 }
@@ -35,7 +35,7 @@ c1scanned() { # key: process a scanned key
 c1scan() { # match: scan matching keys, invoking c1scanned for each
   local match="$1"
   local cursor=0
-  log "match $match"
+  log "scan: match $match"
   while [ 1 ]
   do
     for key in `redis-cli scan $cursor match "$match" | tee $tmp/scan.out | tail -n +2`
@@ -51,7 +51,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
     sleep .1 # sleep to alleviate the load on Redis and the server
     while cat /proc/loadavg | grep -qv ^[01]
     do 
-      log 'sleep' 'load:' `cat /proc/loadavg | cut -f1 -d' '`
+      log 'sleepload:' `cat /proc/loadavg | cut -f1 -d' '`
       sleep 5 # sleep while load is too high
     done 
   done

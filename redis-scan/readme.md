@@ -51,7 +51,7 @@ Since we do not wish to overload the system, we generally take the approach of s
 c0sleepload() # sleep if load is too high
   while cat /proc/loadavg | grep -qv ^[0-1]
   do 
-    log 'sleep' 'load:' `cat /proc/loadavg | cut -f1 -d' '`
+    log 'sleepload:' `cat /proc/loadavg | cut -f1 -d' '`
     sleep 15
   done 
 }
@@ -69,7 +69,7 @@ We `tee` the output of `redis-cli scan` to a file in order to extract the cursor
 c1scan() { # match: scan matching keys, invoking c1scanned for each
   local match="$1"
   local cursor=0
-  log "match $match"
+  log "scan: match $match"
   while [ 1 ]
   do
     for key in `redis-cli scan $cursor match "$match" count 10 | tee $tmp/scan.out | tail -n +2`
