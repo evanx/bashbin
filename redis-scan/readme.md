@@ -54,7 +54,7 @@ mkdir -p $tmp
 log "tmp $tmp"
 
 finish() { # EXIT trap to clean up
-  echo "$finishTime - $startTime" | bc | c1tmp_pipe duration
+  echo `date +%s` - `c1tmp_get time` | bc | c1tmp_pipe duration
   log; log; log "finish: duration (seconds)" `c1tmp_get duration`
   >&2 redis-cli hgetall $tmpHashes
   redis-cli expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
