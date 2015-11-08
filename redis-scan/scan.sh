@@ -7,10 +7,10 @@ set -u # unset variable is an error
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
 
-find tmp/scan -mtime +1 -exec rm {} \; # clean up previous
+>&2 find tmp/scan -mtime +1 -exec rm {} \; # clean up previous
 
 finish() {
-  find tmp/scan/$$ # show the files created for debugging
+  >&2 find tmp/scan/$$ # show the files created for debugging
   #rm -rf tmp/scan/$$ # alternatively remove tmp directory on exit 
 }
 
