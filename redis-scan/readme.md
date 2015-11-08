@@ -50,22 +50,6 @@ c0sleepload() # sleep if load is too high
 While the current loadavg is 2 or greater, we'll sleep until it settles below 2 again.
 
 
-### Scanned
-
-For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout, i.e. equivalent to the `redis-cli keys` command. 
-
-```shell
-c1scanned() { # key: process a scanned key
-  local key="$1"
-  log "scanned $key" 'load:' `cat /proc/loadavg | cut -f1 -d' '`
-  echo "$key" # process this key
-  sleep .1 # sleep to alleviate the load on Redis and the server
-}
-```
-
-In practice, we may be issuing Redis commands here to check TTL, delete, migrate or archive keys. 
-
-
 ### Scan
 
 We `tee` the output of `redis-cli scan` to a file in order to extract the cursor from it's head for the next iteration. We loop through the keys, skipping the first line (which is the returned cursor).
@@ -87,13 +71,35 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
     then
       break
     fi
+    sleep .1 # sleep to alleviate the load on Redis and the server
     c0sleepload # sleep if load is too high
   done
 }
 ```
 When the cursor returned is zero, we `break` from the `while` loop.
 
-Note that we take care to sleep to alleviate the load on Redis and the server. If our processing is quite intensive, we should increase the duration appropriately.
+
+### Scanned
+
+For each scanned matching key, we invoke a function `c1scanned` to perform some processing. 
+
+```shell
+c1scanned() { # key: process a scanned key
+  local key="$1"
+  log "scanned $key" 'load:' `cat /proc/loadavg | cut -f1 -d' '`
+  echo "$key" # process this key
+  sleep .1 # sleep to alleviate the load on Redis and the server
+}
+```
+
+In this example we just output the key to stdout, i.e. equivalent to the `redis-cli keys` command. 
+
+In practice, we may be issuing Redis commands here to check TTL, delete, migrate or archive keys. 
+
+Note that we take care to sleep, so that we are not hogging Redis. If our processing is quite intensive, we might increase the sleep duration appropriately. 
+
+Having said that, we are using the default `COUNT` of 10 keys, and sleeping in the outer `while` loop, which should be sufficient.
+
 
 ### Commands 
 
