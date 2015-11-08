@@ -28,7 +28,15 @@ finish() { # EXIT trap to clean up
 }
 
 trap finish EXIT
+```
+where `>&2` is used to redirect debugging info to stderr. We suppress the debugging of the script via `2>/dev/null`
 
+
+### Load and sleep
+
+Since we do not wish to overload the system, we generally take the approach of sleeping when the load is too high.
+
+```shell
 c0sleepload() # sleep if load is too high
   while cat /proc/loadavg | grep -qv ^[0-1]
   do 
@@ -38,7 +46,6 @@ c0sleepload() # sleep if load is too high
 }
 
 ```
-where `>&2` is used to redirect debugging info to stderr. We suppress the debugging of the script via `2>/dev/null`
 
 
 ### SCAN
