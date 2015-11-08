@@ -29,18 +29,50 @@ log() { # message: echo to stderr
   >&2 echo "$1"
 }
 
+c2exit() {
+  >&2 echo "EXIT $*"
+  exit $1
+}
+
+lhost=`hostname -s`
+tmpHashes="tmp:scan:$lhost:$$:hashes" # a tmp redis hashes key for general use by this script
+log "tmpHashes $tmpHashes"
+
+c1tmp_set() {
+  tr -d '\n' | redis-cli -x hset $tmpHashes $1 >/dev/null
+}
+
+c1tmp_get() {
+  redis-cli --raw hget $tmpHashes $1
+}
+
+date +%s | c1tmp_set time # set run start time field in tmp hashes 
+c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # set run start time from tmp hashes
+
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
 log "tmp $tmp"
 
 finish() { # EXIT trap to clean up
+  startTime=`c1tmp_get time`
+  finishTime=`date +%s`
+  duration=$[ $finishTime - $startTime ]
+  echo $duration | c1tmp_set duration
+  #2>&1 redis-cli hgetall $tmpHashes
+  log; log; log "finish: duration $duration"
+  redis-cli expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
+  >&2 log $tmpHashes `redis-cli hkeys $tmpHashes` # show the tmp hashes for debugging
   >&2 find tmp/scan/$$ # show the files created for debugging
-  rm -rf tmp/scan/$$ # alternatively remove tmp directory on exit 
+  rm -rf tmp/scan/$$ # remove tmp directory on exit 
 }
 
 trap finish EXIT
 ```
-where `>&2` is used to redirect debugging info to stderr. We suppress the debugging of the script via `2>/dev/null`
+where `>&2` is used to redirect debugging info to stderr. (We can hide the debugging info by redirecting `2>/dev/null` when running the script.)
+
+In general it's useful to have a `tmp` directory for each bash script. We use `$$` to create a dedicated `tmp` according to the script's PID.
+
+In addition, we might use `tmp` hashes in Redis to track the execution of the script, e.g. pipe the value into our `c1tmp_set` utility function.
 
 
 ### Sleep to alleviate load 
@@ -72,6 +104,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
   log "scan: match $match"
   while [ 1 ]
   do
+    log; log "scan $cursor match $match"
     for key in `redis-cli scan $cursor match "$match" count 10 | tee $tmp/scan.out | tail -n +2`
     do
       c1scanned $key
@@ -90,6 +123,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
 When the cursor returned is zero, we `break` from the `while` loop.
 
 Note we are using the default scan count of 10 keys per iteration.
+
 
 ### Scanned
 

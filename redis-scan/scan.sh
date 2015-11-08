@@ -8,6 +8,26 @@ log() { # echo to stderr
   >&2 echo "$*"
 }
 
+c2exit() {
+  >&2 echo "EXIT $*"
+  exit $1
+}
+
+lhost=`hostname -s`
+tmpHashes="tmp:scan:$lhost:$$:hashes" # a tmp redis hashes key for general use by this script
+log "tmpHashes $tmpHashes"
+
+c1tmp_set() {
+  tr -d '\n' | redis-cli -x hset $tmpHashes $1 >/dev/null
+}
+
+c1tmp_get() {
+  redis-cli --raw hget $tmpHashes $1
+}
+
+date +%s | c1tmp_set time # set run start time field in tmp hashes 
+c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # set run start time from tmp hashes
+
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
 
@@ -16,12 +36,19 @@ log "tmp $tmp"
 #>&2 find tmp/scan -mtime +1 -exec rm -rf {} \; # clean up previous older than 1 day
 
 finish() {
+  startTime=`c1tmp_get time`
+  finishTime=`date +%s`
+  duration=$[ $finishTime - $startTime ] 
+  echo $duration | c1tmp_set duration
+  2>&1 redis-cli hgetall $tmpHashes
+  log; log; log "finish: duration $duration"
+  redis-cli expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
+  >&2 log $tmpHashes `redis-cli hkeys $tmpHashes` # show the tmp hashes for debugging
   >&2 find tmp/scan/$$ # show the files created for debugging
   rm -rf tmp/scan/$$ # remove tmp directory on exit 
 }
 
-trap finish EXIT
-
+trap finish EXIT 
 
 # scan 
 
@@ -35,10 +62,10 @@ c1scanned() { # key: process a scanned key
 c1scan() { # match: scan matching keys, invoking c1scanned for each
   local match="$1"
   local cursor=0
-  log "scan: match $match"
   while [ 1 ]
   do
-    for key in `redis-cli scan $cursor match "$match" | tee $tmp/scan.out | tail -n +2`
+    log; log "scan $cursor match $match"
+    for key in `redis-cli scan $cursor match "$match" count 10 | tee $tmp/scan.out | tail -n +2`
     do
       c1scanned $key
     done
@@ -72,5 +99,4 @@ then
 else
   c0default
 fi
-
 
