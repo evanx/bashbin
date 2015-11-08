@@ -52,7 +52,7 @@ While the current loadavg is 2 or greater, we'll sleep until it settles below 2 
 
 ### Scanned
 
-For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout, i.e. equivalent to the `redis-cli keys` command. However we may be issuing Redis commands here to check TTL, delete or migrate keys.
+For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout, i.e. equivalent to the `redis-cli keys` command. 
 
 ```shell
 c1scanned() { # key: process a scanned key
@@ -62,6 +62,8 @@ c1scanned() { # key: process a scanned key
   sleep .1 # sleep to alleviate the load on Redis and the server
 }
 ```
+
+In practice, We may be issuing Redis commands here to check TTL, delete or migrate keys. 
 
 
 ### Scan
