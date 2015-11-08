@@ -87,7 +87,7 @@ This enables us to invoke specific functions (with arguments) from the command-l
 ```
 evans@boromir:~/bashbin/redis-scan$ sh scan.sh scan 'article:*'
 match article:*
-scanned article:1940344:hashes
+scanned article:1940344
 ...
 ```
 
