@@ -27,6 +27,7 @@ c1tmp_get() {
 
 date +%s | c1tmp_pipe time # set run start time field in tmp hashes 
 c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # set run start time from tmp hashes
+redis-cli -n 13 expire $tmpHashes 129600 >/dev/null # expire tmp redis hashes in 36 hours
 
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
@@ -50,7 +51,7 @@ trap finish EXIT
 # scan 
 
 c1scanned() { # key: process a scanned key
-  local key="$0"
+  local key="$1"
   log "scanned: $key" 'load:' `cat /proc/loadavg | cut -f1 -d' '`
   echo "$key" # for example, just echo to stdout
   sleep .1 # sleep to alleviate the load on Redis and the server

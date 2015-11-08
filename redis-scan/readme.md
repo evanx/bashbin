@@ -39,15 +39,16 @@ tmpHashes="tmp:scan:$lhost:$$:hashes" # a tmp redis hashes key for general use b
 log "tmpHashes $tmpHashes"
 
 c1tmp_pipe() {
-  tr -d '\n' | redis-cli -x hset $tmpHashes $1 >/dev/null
+  tr -d '\n' | redis-cli -n 13 -x hset $tmpHashes $1 >/dev/null
 }
 
 c1tmp_get() {
-  redis-cli --raw hget $tmpHashes $1
+  redis-cli -n 13 --raw hget $tmpHashes $1
 }
 
 date +%s | c1tmp_pipe time # set run start time field in tmp hashes 
 c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # sanity check
+redis-cli -n 13 expire $tmpHashes 129600 >/dev/null # expire tmp redis hashes in 36 hours
 
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
@@ -55,10 +56,9 @@ log "tmp $tmp"
 
 finish() { # EXIT trap to clean up
   echo `date +%s` - `c1tmp_get time` | bc | c1tmp_pipe duration
-  log; log; log "finish: duration (seconds)" `c1tmp_get duration`
-  >&2 redis-cli hgetall $tmpHashes
-  redis-cli expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
-  >&2 log $tmpHashes `redis-cli hkeys $tmpHashes` # show the tmp hashes for debugging
+  log; log "finish: duration (seconds)" `c1tmp_get duration`
+  redis-cli -n 13 expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
+  >&2 log $tmpHashes `redis-cli -n 13 hkeys $tmpHashes` # show the tmp hashes for debugging
   >&2 find tmp/scan/$$ # show the files created for debugging
   rm -rf tmp/scan/$$ # remove tmp directory on exit 
 }
