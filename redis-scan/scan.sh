@@ -47,10 +47,11 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
     then
       break
     fi
-    sleep .1 # sleep for 100ms to manage the load on Redis and the server
-    while cat /proc/loadavg | grep -qv ^[0-1]
+    sleep .1 # sleep for 100ms to alleviate the load on Redis and the server
+    while cat /proc/loadavg | grep -qv ^[01]
     do 
-      sleep 1 # sleep while load is too high
+      log 'sleep - load' `cat /proc/loadavg | cut -f1 -d' '`
+      sleep 5 # sleep while load is too high
     done 
   done
 }

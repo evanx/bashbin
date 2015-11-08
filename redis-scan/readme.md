@@ -62,7 +62,8 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
     sleep .1 # sleep for 100ms to manage the load on Redis and the server
     while cat /proc/loadavg | grep -qv ^[0-1]
     do 
-      sleep 1 # sleep while load is high
+      log 'sleep - load' `cat /proc/loadavg | cut -f1 -d' '`
+      sleep 5 # sleep while load is high
     done 
   done
 }
