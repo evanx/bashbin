@@ -15,7 +15,7 @@ This is a useful template for bash scripts that perform the following use-cases:
 - migrating keys to another Redis instance
 - archiving Redis content to a disk-based database
 
-Incidently one of our use-cases, is extracting content to a disk pre-cache to be served directly by Nginx's `try_files` - to improve performance and resilience. When the service is down or being restarted, Nginx `try_files` will still serve the content - although this can be achieved by Nginx's `proxy_cache` too. Also, we can then expire and prune Redis keys wth static content more aggressively, since this will be served off disk by Nginx.
+Incidently one of our use-cases, is extracting content to a disk pre-cache to be served directly by Nginx's `try_files` - to improve performance and resilience. When the service is down or being restarted, Nginx `try_files` will still serve the content. (This can be achieved by Nginx's `proxy_cache` too). Also, we can then expire and prune Redis keys wth static content more aggressively, since this will be served off disk by Nginx.
 
 
 ### Housekeeping
