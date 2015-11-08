@@ -32,7 +32,7 @@ trap finish EXIT
 For each scanned matching key, we invoke a function `c1scanned` to perform some processing.
 
 
-```
+```shell
 c1scanned() { # key: process a scanned key
   local key="$1"
   echo "scanned $key"
@@ -84,7 +84,7 @@ where `c0default` is invoked when no command-line arguments are given.
 
 This enables us to invoke specific functions (with arguments) from the command-line, to make the bash script more useful and debuggable.
 
-```
+```shell
 evans@boromir:~/bashbin/redis-scan$ bash scan.sh scan 'article:*'
 match article:*
 scanned article:1940344
