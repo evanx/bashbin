@@ -58,8 +58,8 @@ finish() { # EXIT trap to clean up
   finishTime=`date +%s`
   duration=$[ $finishTime - $startTime ]
   echo $duration | c1tmp_set duration
-  #2>&1 redis-cli hgetall $tmpHashes
   log; log; log "finish: duration $duration"
+  2>&1 redis-cli hgetall $tmpHashes
   redis-cli expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
   >&2 log $tmpHashes `redis-cli hkeys $tmpHashes` # show the tmp hashes for debugging
   >&2 find tmp/scan/$$ # show the files created for debugging
@@ -72,7 +72,7 @@ where `>&2` is used to redirect debugging info to stderr. (We can hide the debug
 
 In general it's useful to have a `tmp` directory for each bash script. We use `$$` to create a dedicated `tmp` according to the script's PID.
 
-In addition, we might use "tmp" hashes in Redis to track the execution of the script, in database number (unlucky) 13, e.g. the `c1tmp_set` utility function is used to pipe some field value into the tmp hashes for this script's execution. As a matter of course, we store the execution duration using `c1tmp_set` in `finish()`
+In addition, we might use "tmp" hashes in Redis to track the execution of the script, in database number (unlucky) 13. As a matter of course, we store the execution duration using `c1tmp_set` in `finish()`
 
 
 ### Sleep to alleviate load 

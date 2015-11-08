@@ -40,8 +40,8 @@ finish() {
   finishTime=`date +%s`
   duration=$[ $finishTime - $startTime ] 
   echo $duration | c1tmp_set duration
-  2>&1 redis-cli -n 13 hgetall $tmpHashes
   log; log; log "finish: duration $duration"
+  >&2 redis-cli -n 13 hgetall $tmpHashes
   redis-cli -n 13 expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
   >&2 log $tmpHashes `redis-cli -n 13 hkeys $tmpHashes` # show the tmp hashes for debugging
   >&2 find tmp/scan/$$ # show the files created for debugging
