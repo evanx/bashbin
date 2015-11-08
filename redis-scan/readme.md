@@ -1,13 +1,18 @@
 
 # Redis SCAN
 
-So we should not use `redis-cli keys` - especially not on large Redis instances on production machines. This can block Redis for a number of seconds.
+So we should not use `redis-cli keys` - especially not on large Redis keyspaces on production machines. This can block Redis for a number of seconds.
 
 We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line returned is the cursor for the next iteration.
 
 Herewith a sample bash script to `SCAN` keys from Redis.
 
-This is useful for pruning (e.g. deleting keys according to their TTL or other logic); migrating keys to another Redis instance; archiving Redis content to a disk-based database; or extracting content to a disk pre-cache to be served directly by Nginx try_files, e.g. in perpetuity after keys have expired, or to improve resilience e.g. when our service is down or being restarted.
+This is a useful template for bash scripts that perform the following use-cases:
+- pruning e.g. deleting keys according to their TTL or other logic
+- migrating keys to another Redis instance
+- archiving Redis content to a disk-based database
+
+Incidently one of our use-cases, is extracting content to a disk pre-cache to be served directly by Nginx `try_files` i.e. even after keys have expired, and to improve resilience e.g. when our service is down or being restarted.
 
 
 ### Housekeeping
