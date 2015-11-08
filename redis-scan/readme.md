@@ -140,4 +140,4 @@ scanned article:1940344
 ...
 ```
 
-where two command-line arguments are specified viz. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument viz. 'article:*'
+where two command-line arguments are specified i.e. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument i.e. 'article:*'
