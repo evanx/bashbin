@@ -61,7 +61,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
   log "match $match"
   while [ 1 ]
   do
-    for key in `redis-cli scan $cursor match "$match" | tee $tmp/scan.out | tail -n +2`
+    for key in `redis-cli scan $cursor match "$match" count 10 | tee $tmp/scan.out | tail -n +2`
     do
       c1scanned $key
     done
