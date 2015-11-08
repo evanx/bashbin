@@ -15,7 +15,6 @@ c2exit() {
 
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
-
 log "tmp $tmp"
 
 #>&2 find tmp/scan -mtime +1 -exec rm -rf {} \; # clean up previous older than 1 day
