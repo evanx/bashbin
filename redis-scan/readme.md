@@ -47,7 +47,6 @@ c1tmp_get() {
 }
 
 date +%s | c1tmp_pipe time # set run start time field in tmp hashes 
-c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # sanity check
 redis-cli -n 13 expire $tmpHashes 129600 >/dev/null # expire tmp redis hashes in 36 hours
 
 tmp=tmp/scan/$$ # create a tmp directory for this PID
