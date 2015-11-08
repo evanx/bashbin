@@ -4,21 +4,23 @@
 
 set -u # unset variable is an error
 
-tmp=tmp/scan/$$ # create a tmp directory for this PID
-mkdir -p $tmp
-
->&2 find tmp/scan -mtime +1 -exec rm {} \; # clean up previous
-
-finish() {
-  >&2 find tmp/scan/$$ # show the files created for debugging
-  #rm -rf tmp/scan/$$ # alternatively remove tmp directory on exit 
-}
-
-trap finish EXIT
-
 log() { # echo to stderr
   >&2 echo "$*"
 }
+
+tmp=tmp/scan/$$ # create a tmp directory for this PID
+mkdir -p $tmp
+
+log "tmp $tmp"
+
+>&2 find tmp/scan -mmin +5 -exec rm -rf {} \; # clean up previous older than 5 mins
+
+finish() {
+  >&2 find tmp/scan/$$ # show the files created for debugging
+  rm -rf tmp/scan/$$ # remove tmp directory on exit 
+}
+
+trap finish EXIT
 
 
 # scan 
