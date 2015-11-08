@@ -29,13 +29,14 @@ trap finish EXIT
 
 ### SCAN
 
-For each scanned matching key, we invoke a function `c1scanned` where we perform some processing.
+For each scanned matching key, we invoke a function `c1scanned` to perform some required processing of the scanned key.
 
 
 ```
 c1scanned() { # key: process a scanned key
   local key="$1"
   echo "scanned $key"
+  ... # process this key
 }
 
 c1scan() { # match: scan matching keys, invoking c1scanned for each
