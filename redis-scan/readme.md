@@ -57,8 +57,8 @@ finish() { # EXIT trap to clean up
   echo `date +%s` - `c1tmp_get time` | bc | c1tmp_pipe duration
   log; log "finish: duration (seconds)" `c1tmp_get duration`
   redis-cli -n 13 expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
-  >&2 log $tmpHashes `redis-cli -n 13 hkeys $tmpHashes` # show the tmp hashes for debugging
-  >&2 find tmp/scan/$$ # show the files created for debugging
+  >&2 log $tmpHashes `redis-cli -n 13 hkeys $tmpHashes` # show the tmp hashes
+  >&2 find tmp/scan/$$ # show the files created 
   rm -rf tmp/scan/$$ # remove tmp directory on exit 
 }
 
