@@ -1,7 +1,7 @@
 
 # Redis SCAN
 
-So we should not to use `redis-cli keys` - especially not on large Redis instances on production machines. This can block Redis for a number of seconds.
+So we should not use `redis-cli keys` - especially not on large Redis instances on production machines. This can block Redis for a number of seconds.
 
 We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line returned is the cursor for the next iteration.
 
