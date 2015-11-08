@@ -17,26 +17,25 @@ set -u # unset variable is an error
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
 
-find tmp/scan -mtime +1 -exec rm {} \; # clean up previous 
+>&2 find tmp/scan -mtime +1 -exec rm {} \; # clean up previous 
 
 finish() {
-  find tmp/scan/$$ # show the files created for debugging
+  >&2 find tmp/scan/$$ # show the files created for debugging
   #rm -rf tmp/scan/$$ # alternatively remove tmp directory on exit 
 }
 
 log() { message: echo to stderr
   >&2 echo "$1"
-
 }
-
 
 trap finish EXIT
 ```
+where `>&2` is used to redirect debugging info to stderr.
+
 
 ### SCAN
 
-For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout.
-
+For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout. Which can redirect this output into a file.
 
 ```shell
 c1scanned() { # key: process a scanned key
