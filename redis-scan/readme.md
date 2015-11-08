@@ -41,7 +41,7 @@ c0sleepload() # sleep if load is too high
   while cat /proc/loadavg | grep -qv ^[0-1]
   do 
     log 'sleep' 'load:' `cat /proc/loadavg | cut -f1 -d' '`
-    sleep 5 # sleep while load is high
+    sleep 15 # sleep while load is high
   done 
 }
 
