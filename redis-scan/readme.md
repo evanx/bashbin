@@ -5,7 +5,9 @@ So we should not use `redis-cli keys` - especially not on large Redis keyspaces 
 
 We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line returned is the cursor for the next iteration.
 
-Herewith a sample bash script to `SCAN` keys from Redis: https://github.com/evanx/bashbin/blob/master/redis-scan/scan.sh
+Herewith a sample bash script to `SCAN` keys from Redis: 
+
+https://github.com/evanx/bashbin/blob/master/redis-scan/scan.sh
 
 This is a useful template for bash scripts that perform the following use-cases:
 - pruning e.g. deleting keys according to their TTL or other logic
