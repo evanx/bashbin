@@ -63,7 +63,7 @@ c1scanned() { # key: process a scanned key
 }
 ```
 
-In practice, we may be issuing Redis commands here to check TTL, delete or migrate keys. 
+In practice, we may be issuing Redis commands here to check TTL, delete, migrate or archive keys. 
 
 
 ### Scan
