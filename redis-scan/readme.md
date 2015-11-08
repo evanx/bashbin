@@ -19,12 +19,12 @@ mkdir -p $tmp
 
 >&2 find tmp/scan -mtime +1 -exec rm {} \; # clean up previous older than 1 day
 
-finish() {
+finish() { # EXIT trap to clean up
   >&2 find tmp/scan/$$ # show the files created for debugging
   #rm -rf tmp/scan/$$ # alternatively remove tmp directory on exit 
 }
 
-log() { message: echo to stderr
+log() { # message: echo to stderr
   >&2 echo "$1"
 }
 
