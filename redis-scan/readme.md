@@ -3,7 +3,7 @@
 
 So we should not use `redis-cli keys` - especially not on large Redis keyspaces on production machines. This can block Redis for a number of seconds.
 
-We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line returned is the cursor for the next iteration.
+We should of course rather use the `SCAN` command (and SSCAN et al). Where the first line returned is the cursor for the next iteration.
 
 Herewith a sample bash script to `SCAN` keys from Redis: 
 
