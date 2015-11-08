@@ -43,6 +43,8 @@ log "tmp $tmp"
 >&2 find tmp/scan -mtime +1 -exec rm -rf {} \; # clean up previous older than 1 day
 
 finish() { # EXIT trap to clean up
+  finishTime=`date +%s`
+  log 'finish: duration (seconds)' `echo $finishTime - $startTime | bc`
   >&2 find tmp/scan/$$ # show the files created 
   rm -rf tmp/scan/$$ # remove tmp directory on exit 
 }
