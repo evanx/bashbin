@@ -56,9 +56,8 @@ log "tmp $tmp"
 finish() { # EXIT trap to clean up
   startTime=`c1tmp_get time`
   finishTime=`date +%s`
-  duration=$[ $finishTime - $startTime ]
-  echo $duration | c1tmp_pipe duration
-  log; log; log "finish: duration $duration"
+  echo "$finishTime - $startTime" | bc | c1tmp_pipe duration
+  log; log; log "finish: duration (seconds)" `c1tmp_get duration`
   >&2 redis-cli hgetall $tmpHashes
   redis-cli expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
   >&2 log $tmpHashes `redis-cli hkeys $tmpHashes` # show the tmp hashes for debugging

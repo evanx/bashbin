@@ -36,11 +36,8 @@ log "tmp $tmp"
 #>&2 find tmp/scan -mtime +1 -exec rm -rf {} \; # clean up previous older than 1 day
 
 finish() {
-  startTime=`c1tmp_get time`
-  finishTime=`date +%s`
-  duration=$[ $finishTime - $startTime ] 
-  echo $duration | c1tmp_pipe duration
-  log; log; log "finish: duration $duration"
+  echo `date +%s` - `c1tmp_get time` | bc | c1tmp_pipe duration
+  log; log; log "finish: duration (seconds)" `c1tmp_get duration`
   >&2 redis-cli -n 13 hgetall $tmpHashes
   redis-cli -n 13 expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
   >&2 log $tmpHashes `redis-cli -n 13 hkeys $tmpHashes` # show the tmp hashes for debugging
