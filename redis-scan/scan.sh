@@ -50,7 +50,7 @@ trap finish EXIT
 # scan 
 
 c1scanned() { # key: process a scanned key
-  local key="$1"
+  local key="$0"
   log "scanned: $key" 'load:' `cat /proc/loadavg | cut -f1 -d' '`
   echo "$key" # for example, just echo to stdout
   sleep .1 # sleep to alleviate the load on Redis and the server
