@@ -1,3 +1,6 @@
+#!/bin/bash 
+
+# housekeeping 
 
 set -u # unset variable is an error
 
@@ -13,15 +16,23 @@ finish() {
 
 trap finish EXIT
 
+log() { # echo to stderr
+  >&2 echo "$*"
+}
+
+
+# scan 
+
 c1scanned() { # key: process a scanned key
   local key="$1"
-  echo "scanned $key"
+  log "scanned $key"
+  echo "$key" # for example, just echo to stdout
 }
 
 c1scan() { # match: scan matching keys, invoking c1scanned for each
   local match="$1"
   local cursor=0
-  echo "match $match"
+  log "match $match"
   while [ 1 ]
   do
     for key in `redis-cli scan $cursor match "$match" | tee $tmp/scan.out | tail -n +2`
@@ -29,13 +40,16 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
       c1scanned $key
     done
     cursor=`head -1 $tmp/scan.out`
-    echo "cursor $cursor"
+    log "cursor $cursor"
     if [ $cursor -eq 0 ]
     then
       break
     fi
   done
 }
+
+
+# command-line invocation 
 
 c0default() {
   c1scan 'article:*'
@@ -49,4 +63,5 @@ then
 else
   c0default
 fi
+
 

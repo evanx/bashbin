@@ -24,25 +24,31 @@ finish() {
   #rm -rf tmp/scan/$$ # alternatively remove tmp directory on exit 
 }
 
+log() { message: echo to stderr
+  >&2 echo "$1"
+
+}
+
+
 trap finish EXIT
 ```
 
 ### SCAN
 
-For each scanned matching key, we invoke a function `c1scanned` to perform some processing.
+For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout.
 
 
 ```shell
 c1scanned() { # key: process a scanned key
   local key="$1"
-  echo "scanned $key"
-  ... # process this key
+  log "scanned $key"
+  echo "$key" # process this key
 }
 
 c1scan() { # match: scan matching keys, invoking c1scanned for each
   local match="$1"
   local cursor=0
-  echo "match $match"
+  log "match $match"
   while [ 1 ]
   do
     for key in `redis-cli scan $cursor match "$match" | tee $tmp/scan.out | tail -n +2`
@@ -50,7 +56,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
       c1scanned $key
     done
     cursor=`head -1 $tmp/scan.out`
-    echo "cursor $cursor"
+    log "cursor $cursor"
     if [ $cursor -eq 0 ]
     then
       break
