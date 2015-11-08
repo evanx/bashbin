@@ -47,7 +47,7 @@ c1tmp_get() {
 }
 
 date +%s | c1tmp_set time # set run start time field in tmp hashes 
-c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # set run start time from tmp hashes
+c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # sanity check
 
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
