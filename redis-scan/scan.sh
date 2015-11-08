@@ -17,7 +17,7 @@ lhost=`hostname -s`
 tmpHashes="tmp:scan:$lhost:$$:hashes" # a tmp redis hashes key for general use by this script
 log "tmpHashes $tmpHashes"
 
-c1tmp_set() {
+c1tmp_pipe() {
   tr -d '\n' | redis-cli -n 13 -x hset $tmpHashes $1 >/dev/null
 }
 
@@ -25,7 +25,7 @@ c1tmp_get() {
   redis-cli --raw -n 13 hget $tmpHashes $1
 }
 
-date +%s | c1tmp_set time # set run start time field in tmp hashes 
+date +%s | c1tmp_pipe time # set run start time field in tmp hashes 
 c1tmp_get time | grep -q '^[0-9][0-9]*$' || c2exit 1 'tmp hashes time' # set run start time from tmp hashes
 
 tmp=tmp/scan/$$ # create a tmp directory for this PID
@@ -39,7 +39,7 @@ finish() {
   startTime=`c1tmp_get time`
   finishTime=`date +%s`
   duration=$[ $finishTime - $startTime ] 
-  echo $duration | c1tmp_set duration
+  echo $duration | c1tmp_pipe duration
   log; log; log "finish: duration $duration"
   >&2 redis-cli -n 13 hgetall $tmpHashes
   redis-cli -n 13 expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
