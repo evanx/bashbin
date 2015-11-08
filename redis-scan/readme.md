@@ -159,7 +159,7 @@ match article:*
 scanned article:1934123 load: 0.21
 article:1934123
 ...
-finish: duration 5
+finish: duration (seconds) 5
 tmp/scan/22088
 tmp/scan/22088/scan.out
 ```
