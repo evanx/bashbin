@@ -86,6 +86,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
 ```
 When the cursor returned is zero, we `break` from the `while` loop.
 
+Note we are using the default scan count of 10.
 
 ### Scanned
 
@@ -106,7 +107,7 @@ In practice, we may be issuing Redis commands here to check TTL, delete, migrate
 
 Note that we take care to sleep, so that we are not hogging Redis. If our processing is quite intensive, we might increase the sleep duration appropriately. 
 
-Having said that, we are using the default `COUNT` of 10 keys, and sleeping in the outer `while` loop i.e. after processing every 10 keys, which should be sufficient.
+Having said that, we are using the default scan count of 10 keys, and sleeping in the outer `while` loop i.e. after processing every 10 keys, which should be sufficient.
 
 
 ### Commands 
