@@ -47,7 +47,7 @@ c0sleepload() # sleep if load is too high
 
 ```
 
-While the `loadavg` is `2.0` or greater, we'll sleep for 5 seconds to hopefully allow it to settle beflow 2 again.
+While the `loadavg` is `2.0` or greater, we'll sleep until it settles beflow 2 again.
 
 ### SCAN
 
