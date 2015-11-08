@@ -62,7 +62,7 @@ where we `tee` the output to a file in order to extract the cursor from it's hea
 
 ### Commands 
 
-Incidently, we use our own "command" notation where functions are prefixed by a `c` and the number of arguments they expect.
+Incidently, we a specific "command" notation where function names are prefixed by a `c` and the number of arguments they expect.
 
 ```shell
 c0default() {
@@ -78,13 +78,16 @@ else
   c0default
 fi
 ```
+where `c0default` is invoked when no command-line arguments are given.
 
-This enables us to invoke specific functions (with arguments) from the command-line e.g. for debugging purposes.
+
+This enables us to invoke specific functions (with arguments) from the command-line, to make the bash script more useful and debuggable.
 
 ```
-evans@boromir:~/bashbin/redis-scan$ sh scan.sh scan 'article:*' | head -2
+evans@boromir:~/bashbin/redis-scan$ sh scan.sh scan 'article:*'
 match article:*
 scanned article:1940344:hashes
+...
 ```
 
-where the function `c1scan` will be invoked in this case since the "command" given (as the first command-line argument) is "scan," and there is one argument for that viz. `article:*`
+where the command-line arguments are `scan 'article:*'` and so we invoke the function `c1scan` since the "command" is "scan," and there is one argument for that viz. `'article:*'`
