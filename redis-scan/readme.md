@@ -1,11 +1,13 @@
 
 # Redis scan
 
-We now know not to use `redis-cli keys` and especially not on production machines.
+So we should not to use `redis-cli keys` - especially not on large Redis instances on production machines. This can block Redis for a number of seconds.
 
 We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line returned is the cursor for the next iteration.
 
 Herewith a sample bash script to `SCAN` keys from Redis.
+
+Firstly some generic bash scripting housekeeping.
 
 ```shell
 set -u # unset variable is an error
@@ -21,7 +23,14 @@ finish() {
 }
 
 trap finish EXIT
+```
 
+### SCAN
+
+For each scanned matching key, we invoke a function `c1scanned` where we perform some processing.
+
+
+```
 c1scanned() { # key: process a scanned key
   local key="$1"
   echo "scanned $key"
@@ -48,7 +57,8 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
 ```
 where we `tee` the output to a file in order to extract the cursor from it's head for the next iteration. When the cursor returned is zero, we `break` from the infinite `while` loop.
 
-For each key we invoke a function `c1scanned` where we perform some processing.
+
+### Commands 
 
 Incidently, we use our own "command" notation where functions are prefixed by a `c` and the number of arguments they expect.
 
