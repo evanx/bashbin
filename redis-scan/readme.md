@@ -86,7 +86,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
 ```
 When the cursor returned is zero, we `break` from the `while` loop.
 
-Note we are using the default scan count of 10.
+Note we are using the default scan count of 10 keys per iteration.
 
 ### Scanned
 
