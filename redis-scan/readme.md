@@ -10,6 +10,7 @@ Herewith a sample bash script to `SCAN` keys from Redis:
 https://github.com/evanx/bashbin/blob/master/redis-scan/scan.sh
 
 This is a useful template for bash scripts that perform the following use-cases:
+- change the EXPIRE/TTL
 - pruning e.g. deleting keys according to their TTL or other logic
 - migrating keys to another Redis instance
 - archiving Redis content to a disk-based database
