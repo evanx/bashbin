@@ -7,6 +7,8 @@ We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line 
 
 Herewith a sample bash script to `SCAN` keys from Redis.
 
+### Housekeeping
+
 Firstly some generic bash scripting housekeeping.
 
 ```shell
