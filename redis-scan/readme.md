@@ -12,7 +12,7 @@ This is a useful template for bash scripts that perform the following use-cases:
 - migrating keys to another Redis instance
 - archiving Redis content to a disk-based database
 
-Incidently one of our use-cases, is extracting content to a disk pre-cache to be served directly by Nginx `try_files` i.e. even after keys have expired, and to improve resilience e.g. when our service is down or being restarted.
+Incidently one of our use-cases, is extracting content to a disk pre-cache to be served directly by Nginx `try_files` i.e. even after keys have expired, to improve performance and resilience. When the service is down or being restarted, Nginx `try_files` will still serve the content.
 
 
 ### Housekeeping
