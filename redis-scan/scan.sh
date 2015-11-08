@@ -18,11 +18,11 @@ tmpHashes="tmp:scan:$lhost:$$:hashes" # a tmp redis hashes key for general use b
 log "tmpHashes $tmpHashes"
 
 c1tmp_set() {
-  tr -d '\n' | redis-cli -x hset $tmpHashes $1 >/dev/null
+  tr -d '\n' | redis-cli -n 13 -x hset $tmpHashes $1 >/dev/null
 }
 
 c1tmp_get() {
-  redis-cli --raw hget $tmpHashes $1
+  redis-cli --raw -n 13 hget $tmpHashes $1
 }
 
 date +%s | c1tmp_set time # set run start time field in tmp hashes 
@@ -40,10 +40,10 @@ finish() {
   finishTime=`date +%s`
   duration=$[ $finishTime - $startTime ] 
   echo $duration | c1tmp_set duration
-  2>&1 redis-cli hgetall $tmpHashes
+  2>&1 redis-cli -n 13 hgetall $tmpHashes
   log; log; log "finish: duration $duration"
-  redis-cli expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
-  >&2 log $tmpHashes `redis-cli hkeys $tmpHashes` # show the tmp hashes for debugging
+  redis-cli -n 13 expire $tmpHashes 60 >/dev/null # expire tmp redis hashes in 60 seconds
+  >&2 log $tmpHashes `redis-cli -n 13 hkeys $tmpHashes` # show the tmp hashes for debugging
   >&2 find tmp/scan/$$ # show the files created for debugging
   rm -rf tmp/scan/$$ # remove tmp directory on exit 
 }

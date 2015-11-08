@@ -172,10 +172,16 @@ This enables us to invoke specific functions (with arguments) from the command-l
 
 ```shell
 evans@boromir:~/bashbin/redis-scan$ bash scan.sh scan 'article:*'
+tmpHashes tmp:scan:boromir:22088:hashes
+tmp tmp/scan/22088
 match article:*
 scanned article:1934123 load: 0.21
 article:1934123
 ...
+finish: duration 5
+tmp:scan:boromir:22088:hashes time duration
+tmp/scan/22088
+tmp/scan/22088/scan.out
 ```
 
 where two command-line arguments are specified i.e. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument i.e. `'article:*'`
