@@ -136,7 +136,8 @@ This enables us to invoke specific functions (with arguments) from the command-l
 ```shell
 evans@boromir:~/bashbin/redis-scan$ bash scan.sh scan 'article:*'
 match article:*
-scanned article:1940344
+scanned article:1934123 load: 0.21
+article:1934123
 ...
 ```
 
