@@ -85,7 +85,7 @@ where `c0default` is invoked when no command-line arguments are given.
 This enables us to invoke specific functions (with arguments) from the command-line, to make the bash script more useful and debuggable.
 
 ```
-evans@boromir:~/bashbin/redis-scan$ sh scan.sh scan 'article:*'
+evans@boromir:~/bashbin/redis-scan$ bash scan.sh scan 'article:*'
 match article:*
 scanned article:1940344
 ...
