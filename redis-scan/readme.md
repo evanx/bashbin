@@ -30,7 +30,7 @@ log() { # message: echo to stderr
 }
 
 c2exit() {
-  >&2 echo "EXIT $1 $2"
+  >&2 echo "exit $1: $2"
   exit $1
 }
 
