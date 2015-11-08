@@ -25,8 +25,6 @@ Firstly some generic bash scripting housekeeping.
 ```shell
 set -u # unset variable is an error
 
-startTime=`date +%s`
-
 log() { # message: echo to stderr
   >&2 echo "$*"
 }
@@ -41,6 +39,8 @@ mkdir -p $tmp
 log "tmp $tmp"
 
 >&2 find tmp/scan -mtime +1 -exec rm -rf {} \; # clean up previous older than 1 day
+
+startTime=`date +%s`
 
 finish() { # EXIT trap to clean up
   finishTime=`date +%s`
