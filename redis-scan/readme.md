@@ -142,3 +142,6 @@ article:1934123
 ```
 
 where two command-line arguments are specified i.e. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument i.e. `'article:*'`
+
+
+See https://github.com/evanx/bashbin/blob/master/redis-scan/scan.sh
