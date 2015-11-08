@@ -32,7 +32,7 @@ trap finish EXIT
 where `>&2` is used to redirect debugging info to stderr. We suppress the debugging of the script via `2>/dev/null`
 
 
-### Loadavg to sleep
+### Sleep to alleviate load 
 
 Since we do not wish to overload the system, we generally take the approach of sleeping when the load is too high.
 
