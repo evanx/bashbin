@@ -9,7 +9,7 @@ log() { # echo to stderr
 }
 
 c2exit() {
-  >&2 echo "EXIT $*"
+  >&2 echo "EXIT $1 $2"
   exit $1
 }
 
