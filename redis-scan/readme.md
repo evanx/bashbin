@@ -72,7 +72,7 @@ where `>&2` is used to redirect debugging info to stderr. (We can hide the debug
 
 In general it's useful to have a `tmp` directory for each bash script. We use `$$` to create a dedicated `tmp` according to the script's PID.
 
-In addition, we might use `tmp` hashes in Redis to track the execution of the script, e.g. pipe the value into our `c1tmp_set` utility function.
+In addition, we might use `tmp` hashes in Redis to track the execution of the script, in database number (unlucky) 13, e.g. the `c1tmp_set` utility function is used to pipe some field value into the tmp hashes for this script's execution. 
 
 
 ### Sleep to alleviate load 
