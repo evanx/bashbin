@@ -50,7 +50,7 @@ c0sleepload() # sleep if load is too high
 While the current loadavg is 2 or greater, we'll sleep until it settles below 2 again.
 
 
-### Scan
+### Scanned
 
 For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout, i.e. equivalent to the `redis-cli keys` command. However we may be issuing Redis commands here to check TTL, delete or migrate keys.
 
@@ -61,7 +61,14 @@ c1scanned() { # key: process a scanned key
   echo "$key" # process this key
   sleep .1 # sleep to alleviate the load on Redis and the server
 }
+```
 
+
+### Scan
+
+We `tee` the output of `redis-cli scan` to a file in order to extract the cursor from it's head for the next iteration. We loop through the keys, skipping the first line (which is the returned cursor).
+
+```shell
 c1scan() { # match: scan matching keys, invoking c1scanned for each
   local match="$1"
   local cursor=0
@@ -82,7 +89,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
   done
 }
 ```
-where we `tee` the output to a file in order to extract the cursor from it's head for the next iteration. When the cursor returned is zero, we `break` from the `while` loop.
+When the cursor returned is zero, we `break` from the `while` loop.
 
 Note that we take care to sleep to alleviate the load on Redis and the server. If our processing is quite intensive, we should increase the duration appropriately.
 
