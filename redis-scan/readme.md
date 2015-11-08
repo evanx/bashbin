@@ -8,17 +8,26 @@ We should of course rather use `SCAN` (and `SSCAN` et al). Where the first line 
 Herewith a sample bash script to `SCAN` keys from Redis.
 
 ```shell
-set -u 
+set -u # unset variable is an error
 
-tmp=tmp/scan
+tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
 
-c1scanned() {
+find tmp/scan -mtime +1 -exec rm {} \; # clean up previous 
+
+finish() {
+  find tmp/scan/$$ # show the files created for debugging
+  #rm -rf tmp/scan/$$ # alternatively remove tmp directory on exit 
+}
+
+trap finish EXIT
+
+c1scanned() { # key: process a scanned key
   local key="$1"
   echo "scanned $key"
 }
 
-c1scan() {
+c1scan() { # match: scan matching keys, invoking c1scanned for each
   local match="$1"
   local cursor=0
   echo "match $match"
@@ -38,6 +47,8 @@ c1scan() {
 }
 ```
 where we `tee` the output to a file in order to extract the cursor from it's head for the next iteration. When the cursor returned is zero, we `break` from the infinite `while` loop.
+
+For each key we invoke a function `c1scanned` where we perform some processing.
 
 Incidently, we use our own "command" notation where functions are prefixed by a `c` and the number of arguments they expect.
 
