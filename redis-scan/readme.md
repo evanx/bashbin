@@ -89,7 +89,7 @@ When the cursor returned is zero, we `break` from the `while` loop.
 
 ### Scanned
 
-For each scanned matching key, we invoke a function `c1scanned` to perform some processing. 
+For each matching key, we invoke a function `c1scanned` to perform some processing. 
 
 ```shell
 c1scanned() { # key: process a scanned key
