@@ -91,4 +91,4 @@ scanned article:1940344
 ...
 ```
 
-where the command-line arguments are `scan 'article:*'` and so we invoke the function `c1scan` since the "command" is "scan," and there is one argument for that viz. `'article:*'`
+where two command-line arguments are specified viz. `scan` and `article:*` - and so we invoke the function `c1scan` - since the "command" is "scan," and there is one argument for that viz. `article:*`
