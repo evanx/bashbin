@@ -20,7 +20,6 @@ log() { # message: echo to stderr
 
 tmp=tmp/scan/$$ # create a tmp directory for this PID
 mkdir -p $tmp
-
 log "tmp $tmp"
 
 finish() { # EXIT trap to clean up
