@@ -29,7 +29,7 @@ finish() { # EXIT trap to clean up
 
 trap finish EXIT
 ```
-where `>&2` is used to redirect debugging info to stderr.
+where `>&2` is used to redirect debugging info to stderr. We suppress the debugging of the script via `2>/dev/null`
 
 
 ### SCAN
