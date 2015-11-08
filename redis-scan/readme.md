@@ -26,7 +26,7 @@ Firstly some generic bash scripting housekeeping.
 set -u # unset variable is an error
 
 log() { # message: echo to stderr
-  >&2 echo "$1"
+  >&2 echo "$*"
 }
 
 c2exit() {
