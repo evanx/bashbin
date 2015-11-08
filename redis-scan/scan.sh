@@ -29,6 +29,7 @@ c1scanned() { # key: process a scanned key
   local key="$1"
   log "scanned $key"
   echo "$key" # for example, just echo to stdout
+  sleep .1 # sleep to alleviate the load on Redis and the server
 }
 
 c1scan() { # match: scan matching keys, invoking c1scanned for each
@@ -47,7 +48,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
     then
       break
     fi
-    sleep .1 # sleep for 100ms to alleviate the load on Redis and the server
+    sleep .1 # sleep to alleviate the load on Redis and the server
     while cat /proc/loadavg | grep -qv ^[01]
     do 
       log 'sleep - load' `cat /proc/loadavg | cut -f1 -d' '`
