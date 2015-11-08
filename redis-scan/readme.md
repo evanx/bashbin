@@ -63,7 +63,7 @@ where we `tee` the output to a file in order to extract the cursor from it's hea
 
 ### Commands 
 
-Incidently, we a specific "command" notation where function names are prefixed by a `c` and the number of arguments they expect.
+Incidently, we use a custom "command" notation where function names are prefixed by a `c` and the number of arguments they expect.
 
 ```shell
 c0default() {
