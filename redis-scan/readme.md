@@ -25,6 +25,8 @@ Firstly some generic bash scripting housekeeping.
 ```shell
 set -u # unset variable is an error
 
+startTime=`date +%s`
+
 log() { # message: echo to stderr
   >&2 echo "$*"
 }

@@ -4,6 +4,8 @@
 
 set -u # unset variable is an error
 
+startTime=`date +%s`
+
 log() { # echo to stderr
   >&2 echo "$*"
 }
