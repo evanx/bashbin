@@ -34,7 +34,7 @@ where `>&2` is used to redirect debugging info to stderr.
 
 ### SCAN
 
-For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout. Which can redirect this output into a file.
+For each scanned matching key, we invoke a function `c1scanned` to perform some processing. In this example we just output the key to stdout, i.e. equivalent to `redis-cli keys`
 
 ```shell
 c1scanned() { # key: process a scanned key
@@ -59,6 +59,7 @@ c1scan() { # match: scan matching keys, invoking c1scanned for each
     then
       break
     fi
+    sleep .1 # sleep for 100ms to manage the load on Redis and the server
   done
 }
 ```
