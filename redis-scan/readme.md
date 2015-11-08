@@ -29,7 +29,7 @@ trap finish EXIT
 
 ### SCAN
 
-For each scanned matching key, we invoke a function `c1scanned` to perform some required processing of the scanned key.
+For each scanned matching key, we invoke a function `c1scanned` to perform some processing.
 
 
 ```
