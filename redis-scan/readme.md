@@ -150,7 +150,7 @@ fi
 where `c0default` is invoked when no command-line arguments are given.
 
 
-This enables us to invoke specific functions (with arguments) as "commands" from the command-line, to make the bash script more useful and debuggable.
+This enables us to invoke specific functions as "commands" from the command-line, to make the bash script more useful and debuggable.
 
 ```shell
 evans@boromir:~/bashbin/redis-scan$ bash scan.sh scan 'article:*'
@@ -164,6 +164,6 @@ tmp/scan/22088
 tmp/scan/22088/scan.out
 ```
 
-where two command-line arguments are specified i.e. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument i.e. `'article:*'`
+where two command-line arguments are specified i.e. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument i.e. `'article:*'` (the MATCH parameter for the SCAN command)
 
 https://twitter.com/@evanxsummers
