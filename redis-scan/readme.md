@@ -5,17 +5,17 @@ So we should not use `redis-cli keys` - especially not on large Redis keyspaces 
 
 We should of course rather use the `SCAN` command (and SSCAN et al). Where the first line returned is the cursor for the next iteration.
 
-Herewith a sample bash script to `SCAN` keys from Redis: 
+Herewith a sample bash script to `SCAN` keys from Redis:
 
 https://github.com/evanx/bashbin/blob/master/redis-scan/scan.sh
 
-This is a useful template for bash scripts that perform the following use-cases:
+This is a useful template for scanning in bash scripts that perform the following use-cases:
 - change the EXPIRE/TTL
 - pruning e.g. deleting keys according to their TTL or other logic
 - migrating keys to another Redis instance
 - archiving Redis content to a disk-based database
 
-Incidently one of our use-cases, is extracting content to a disk pre-cache to be served directly by Nginx's `try_files` - to improve performance and resilience. When the service is down or being restarted, Nginx `try_files` will still serve the content. (This can be achieved using Nginx's `proxy_cache` too). We can then expire and prune Redis keys with static content more aggressively, since that content will be served off disk by Nginx.
+Incidently one of our use-cases, is extracting static JSON content to a disk pre-cache to be served directly by Nginx's `try_files` - to improve performance and resilience. When the upstream service is down or being restarted, Nginx `try_files` will still serve the content. (This can be achieved using Nginx's `proxy_cache` too). We can then expire and prune Redis keys with static content more aggressively, since that content will be served off disk by Nginx.
 
 
 ### Housekeeping
@@ -45,8 +45,8 @@ startTime=`date +%s`
 finish() { # EXIT trap to clean up
   finishTime=`date +%s`
   log 'finish: duration (seconds)' `echo $finishTime - $startTime | bc`
-  >&2 find tmp/scan/$$ # show the files created 
-  rm -rf tmp/scan/$$ # remove tmp directory on exit 
+  >&2 find tmp/scan/$$ # show the files created
+  rm -rf tmp/scan/$$ # remove tmp directory on exit
 }
 
 trap finish EXIT
@@ -57,17 +57,17 @@ In general it's useful to have a "tmp" directory for each bash script. We create
 
 
 
-### Sleep to alleviate load 
+### Sleep to alleviate load
 
 Since we do not wish to overload the system, we generally take the approach of sleeping when the load is too high.
 
 ```shell
 c0sleepload() # sleep if load is too high
   while cat /proc/loadavg | grep -qv ^[0-1]
-  do 
+  do
     log 'sleepload:' `cat /proc/loadavg | cut -f1 -d' '`
     sleep 15
-  done 
+  done
 }
 
 ```
@@ -109,7 +109,7 @@ Note we are using the default scan count of 10 keys per iteration.
 
 ### Scanned
 
-For each matching key, we invoke a function `c1scanned` to perform some processing. 
+For each matching key, we invoke a function `c1scanned` to perform some processing.
 
 ```shell
 c1scanned() { # key: process a scanned key
@@ -120,16 +120,16 @@ c1scanned() { # key: process a scanned key
 }
 ```
 
-In this example we just output the key to stdout, i.e. equivalent to the `redis-cli keys` command. 
+In this example we just output the key to stdout, i.e. equivalent to the `redis-cli keys` command.
 
-In practice, we may be issuing Redis commands here to check TTL, delete, migrate or archive keys. 
+In practice, we may be issuing Redis commands here to check TTL, delete, migrate or archive keys.
 
-Note that we take care to sleep, so that we are not hogging Redis. If our processing is quite intensive, we might increase the sleep duration appropriately. 
+Note that we take care to sleep, so that we are not hogging Redis. If our processing is quite intensive, we might increase the sleep duration appropriately.
 
 Having said that, we are using the default scan count of 10 keys, and sleeping in the outer `while` loop i.e. after processing every 10 keys, which should be sufficient.
 
 
-### Commands 
+### Commands
 
 Incidently, we use a custom "command" notation where function names are prefixed by a `c` and the number of arguments they expect.
 
