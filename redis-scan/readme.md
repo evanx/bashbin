@@ -15,7 +15,8 @@ This is a useful template for scanning in bash scripts that perform the followin
 - migrating keys to another Redis instance
 - archiving Redis content to a disk-based database
 
-Incidently one of our use-cases, is extracting static JSON content to a disk pre-cache to be served directly by Nginx's `try_files` and otherwise proxy to the "upstream" service. We can then expire and prune those Redis keys with static JSON content more aggressively, since existing content will be served off disk by Nginx - even when the upstream service is down or being restarted.
+Incidently one of our use-cases, is extracting static JSON content to a disk where it can be served directly by Nginx's `try_files` and otherwise proxy to the "upstream" service. We can then expire and prune those particular Redis keys more aggressively, since existing content will be served off disk by Nginx - even when the upstream service is down or being restarted.
+
 
 ### Housekeeping
 
