@@ -164,6 +164,6 @@ tmp/scan/22088
 tmp/scan/22088/scan.out
 ```
 
-where two command-line arguments are specified i.e. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument i.e. `'article:*'` (the MATCH parameter for the SCAN command)
+where two command-line arguments are specified i.e. `scan` and `article:*` - so we invoke the function `c1scan` i.e. with 1 argument i.e. `'article:*'` (the MATCH argument for the SCAN command)
 
 https://twitter.com/@evanxsummers
