@@ -15,12 +15,13 @@ $ cat ~/.vimy.complete
 ```
 where I have added the completion file itself too.
 
-We drop the following lines into our `~/.bashrc` to alias `vi` to `vimy` and set its "word list" via `complete -W` as follows:
+We drop the following lines into our `~/.bashrc` 
 ```shell
 $ tail -2 ~/.bashrc
 alias vimy=vi
 complete -W "$(cat ~/.vimy.complete)" vimy
 ```
+where we alias `vi` to `vimy` and use `complete -W` for our files.
 
 We re-import `.bashrc` into our current shell to test it immediately.
 ```shell
@@ -30,7 +31,7 @@ $ . ~/.bashrc
 Now we try `vimy` and press Tab-Tab for auto-completion:
 ```
 $ vimy (Tab Tab)
-.vimy.wordlist.txt /nginx-local/sites/redishub.com
+.vimy.complete /nginx-local/sites/redishub.com
 ```
 
 Done :)
