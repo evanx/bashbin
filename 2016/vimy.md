@@ -15,7 +15,7 @@ $ cat ~/.vimy.complete
 ```
 where I have added the completion file itself too.
 
-We drop the following lines into our `~/.bashrc` 
+We drop the following two lines into our `~/.bashrc` 
 ```shell
 $ tail -2 ~/.bashrc
 alias vimy=vi
