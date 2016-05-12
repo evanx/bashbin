@@ -1,9 +1,9 @@
 
 ## What The File?
 
-Sometimes on a specific hosts, we are most often editing a small subset of files e.g. Nginx config files.
+Problem: Sometimes on a specific hosts, we are most often editing a small subset of files e.g. Nginx config files.
 
-Let’s use bash auto completion!
+Solution: Let’s use bash auto completion!
 
 Bash has a `complete` built-in to specify a "word list" for a specific command.
 
