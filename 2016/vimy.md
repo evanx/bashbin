@@ -1,9 +1,9 @@
 
 ## What The File?
 
-Problem: Sometimes on a specific hosts, we are most often editing a small subset of files e.g. Nginx config files.
+<b>Problem:</b> Sometimes on a specific hosts, we are most often editing a small subset of files e.g. Nginx config files.
 
-Solution: Let’s use bash auto completion!
+<b>Solution:</b> Let’s use bash auto completion!
 
 Bash has a `complete` built-in to specify a "word list" for a specific command.
 
@@ -36,4 +36,3 @@ $ vimy (Tab Tab)
 Done :)
 
 https://twitter.com/@evanxsummers
-
