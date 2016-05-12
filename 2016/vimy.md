@@ -9,8 +9,8 @@ Bash has a `complete` built-in to specify a "word list" for a specific command.
 
 Let’s define a "completion" file containing the names of the files we commonly edit:
 ```shell
-$ cat /etc/vimy.completion
-/etc/vimy.completion
+$ cat ~/.vimy.complete
+~/.vimy.complete
 /nginx-local/sites/redishub.com
 ```
 where I have added the completion file itself too.
@@ -19,7 +19,7 @@ We drop the following lines into our `~/.bashrc` to alias `vi` to `vimy` and set
 ```shell
 $ tail -2 ~/.bashrc
 alias vimy=vi
-complete -W "$(cat /etc/vimy.wordlist.txt)" vimy
+complete -W "$(cat ~/.vimy.complete)" vimy
 ```
 
 We re-import `.bashrc` into our current shell to test it immediately.
@@ -29,8 +29,8 @@ $ . ~/.bashrc
 
 Now we try `vimy` and press Tab-Tab for auto-completion:
 ```
-$ vimy /
-/etc/vimy.wordlist.txt /nginx-local/sites/redishub.com
+$ vimy (Tab Tab)
+.vimy.wordlist.txt /nginx-local/sites/redishub.com
 ```
 
 Done :)
