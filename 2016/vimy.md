@@ -1,7 +1,7 @@
 
 ## What The File?
 
-Sometimes on a specific host, we are most often editing a small subset of config files e.g. Nginx config files.
+Sometimes on a specific hosts, we are most often editing a small subset of files e.g. Nginx config files.
 
 Let’s use bash auto completion!
 
