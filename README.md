@@ -1,6 +1,10 @@
 
 # Bash Bin - some bash articles
 
-What the File? - Bash completion (June 2016) - https://github.com/evanx/bashbin/blob/master/2016/vimy.md
+<b>What the File?</b> Bash completion <i>June 2016</i>
 
-Redis SCAN - (Nov 2016) - https://github.com/evanx/bashbin/tree/master/redis-scan
+https://github.com/evanx/bashbin/blob/master/2016/vimy.md
+
+<b>Redis SCAN</b> <i>Nov 2016</i>
+
+https://github.com/evanx/bashbin/tree/master/redis-scan
