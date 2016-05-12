@@ -20,7 +20,7 @@ We drop the following two lines into our `~/.bashrc`
 alias vimy=vi
 complete -W "$(cat ~/.vimy.complete)" vimy
 ```
-where we alias `vi` to `vimy` and use `complete -W` for our files.
+where we alias `vimy` as `vi` and use `complete -W` for our files.
 
 We re-import `.bashrc` into our current shell to test it immediately.
 ```shell
